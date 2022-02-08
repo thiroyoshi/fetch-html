@@ -2,7 +2,6 @@ import os
 import sys
 import copy
 import datetime
-sys.path.append(os.path.join(os.path.dirname(__file__), './pylibs'))
 import requests
 import bs4
 
