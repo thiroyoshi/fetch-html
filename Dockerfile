@@ -1,9 +1,8 @@
-FROM python:3
+FROM python:alpine
 
-RUN apt-get update
-RUN pip install --upgrade pip
-RUN pip install --upgrade setuptools
+WORKDIR /app
+COPY . /app
 
 RUN pip install -e .
 
-CMD fetch
+ENTRYPOINT [ "fetch" ]
