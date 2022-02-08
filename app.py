@@ -2,13 +2,10 @@ import os
 import sys
 import copy
 import datetime
-from xmlrpc.client import Boolean
 sys.path.append(os.path.join(os.path.dirname(__file__), './pylibs'))
 import requests
 import bs4
 
-
-ARG_FILENAME = "main.py"
 OPTION_METADATA = "--metadata"
 
 
@@ -56,20 +53,26 @@ def fetch(urls, metadata=False):
         print("saved html as \"%s\"" % file_name)
 
 
-if __name__ == '__main__':
+def main():
 
     args = copy.copy(sys.argv)
 
-    # remove filename in args
-    args.remove(ARG_FILENAME)
-
-    # get metadata option and remove in args
+    # get metadata option
     metadata = OPTION_METADATA in args
     if metadata:
         args.remove(OPTION_METADATA)
 
+    # get urls
+    urls = []
+    for num in range(1, len(args)):
+        urls.append(args[num])
+
     try:
-        file_name = fetch(args, metadata)
+        fetch(urls, metadata)
     except Exception as ex:
         print("Error has occured.")
         print(ex)
+
+
+if __name__ == '__main__':
+    main()
