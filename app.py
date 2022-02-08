@@ -38,18 +38,22 @@ def fetch(urls, metadata=False):
             print(ex)
             continue
 
-        with open(file_name, "w", encoding='utf-8', errors='ignore') as f:
-            # save data as html
-            f.write(site_data.text)
+        try:
+            with open(file_name, "w", encoding='utf-8', errors='ignore') as f:
+                # save data as html
+                f.write(site_data.text)
 
-            # print metadata
-            if metadata:
-                soup = bs4.BeautifulSoup(site_data.text,  'html.parser')
-                print("num of links: %s" % len(soup.find_all('a')))
-                print("num of images: %s" % len(soup.find_all('img')))
-                print("last fetch at: %s" % datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S'))
+                # print metadata
+                if metadata:
+                    soup = bs4.BeautifulSoup(site_data.text,  'html.parser')
+                    print("num of links: %s" % len(soup.find_all('a')))
+                    print("num of images: %s" % len(soup.find_all('img')))
+                    print("last fetch at: %s" % datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S'))
 
-        print("saved html as \"%s\"" % file_name)
+            print("saved html as \"%s\"" % file_name)
+        except Exception as ex:
+            print("Error has occured in saving the file: %s" % file_name)
+            print(ex)
 
 
 def main():
@@ -66,11 +70,8 @@ def main():
     for num in range(1, len(args)):
         urls.append(args[num])
 
-    try:
-        fetch(urls, metadata)
-    except Exception as ex:
-        print("Error has occured.")
-        print(ex)
+    # fetch html
+    fetch(urls, metadata)
 
 
 if __name__ == '__main__':
